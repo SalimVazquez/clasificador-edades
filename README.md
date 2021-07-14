@@ -8,7 +8,7 @@ Se estan recolectando imagenes, para completar un *dataset*
 que contenga **4 clases y 40 observaciones en cada clase**.
 
 ### Clases
-- Infancia [4-15 años de edad]
-- Adolescencia [16-30 años de edad]
-- Adulto [31-50 años de edad]
-- 3ra edadd [+50 años de edad]
+- Infancia (4-15 años de edad)
+- Adolescencia (16-30 años de edad)
+- Adulto (31-50 años de edad)
+- 3ra edadd (+50 años de edad)
