@@ -1,7 +1,7 @@
 # Clasificador-edades
 Sistema de [red neuronal](https://www.xeridia.com/blog/redes-neuronales-artificiales-que-son-y-como-se-entrenan-parte-i) multicapa con analisis/procesamiento de imagenes.
 Proyecto de **Inteligencia Artificial**, capaz de predecir la *edad* o *etapa de
-desarrollo humano* a través del análisis de la imagen de la palma de una mano proporcionada para pruebas.
+desarrollo humano* a través del análisis de la imagen de **la palma de una mano** proporcionada para pruebas.
 
 ### Dataset
 Se estan recolectando imagenes, para completar un *dataset*
