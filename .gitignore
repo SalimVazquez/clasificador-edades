@@ -1,0 +1,3 @@
+# Carpetas con el dataset
+data/training/*
+data/validate/*
