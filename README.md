@@ -12,3 +12,8 @@ que contenga **4 clases y 40 observaciones en cada clase**.
 - Adolescencia (16-30 años de edad)
 - Adulto (31-50 años de edad)
 - 3ra edadd (+50 años de edad)
+
+### Requerimientos
+- [TensorFlow](https://www.tensorflow.org/install?hl=es-419)
+- [Keras](https://www.tutorialspoint.com/keras/keras_installation.htm)
+- Dataset
