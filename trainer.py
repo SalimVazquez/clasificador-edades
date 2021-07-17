@@ -44,6 +44,30 @@ size_filter2 = (2,2)
 # Tamaño de filtro para MaxPooling
 size_pool = (2,2)
 # No de clases en dataset
-clas = 4
+classes = 4
 # Tasa de aprendizaje (lambda)
 lr = 0.005
+
+# pre-procesamiento de imagenes
+datagen_training = ImageDataGenerator(
+    rescale = 1./255, # Re escala las imagenes (0-1 px)
+    shear_range = 0.3, # Inclinar imagenes para mejor entrenamiento
+    zoom_range = 0.3, # Aumentar/Alejar imagenes para mejor entrenamiento
+    horizontal_flip = True # Invertir imagen para mejor entrenamiento
+)
+
+datagen_validate = ImageDataGenerator(rescale=1./255)
+
+img_training = datagen_training.flow_from_directory(
+    path_training, # path de imagenes para entrenamiento
+    target_size = (height, width), # Lee y procesa las imagenes a $height, $width
+    batch_size = batch_size, # Crea lotes de imagenes
+    class_mode = 'categorical'
+)
+
+img_validate = datagen_validate.flow_from_directory(
+    path_validate, # path de imagenes para validación
+    target_size = (height, width), # Lee y procesa las imagenes a $height, $width
+    batch_size = batch_size, # Crea lotes de imagenes
+    class_mode = 'categorical'
+)
