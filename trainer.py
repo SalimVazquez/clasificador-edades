@@ -71,3 +71,41 @@ img_validate = datagen_validate.flow_from_directory(
     batch_size = batch_size, # Crea lotes de imagenes
     class_mode = 'categorical'
 )
+
+# Crear red Convolucional
+cnn = Sequential() # Red secuencial por capas
+# 1er capa: Convolution2D
+# encargada de recibir las imagenes con $height, $width px y los canales por imagen (RGB)
+# aplicando los filtros y tamaños de filtros indicados
+cnn.add(Convolution2D(filter_conv1, size_filter1, padding='same', input_shape=(height, width, 3), activation='relu'))
+# 2da capa: MaxPooling2D
+# filtro para esta: (2,2) px
+cnn.add(MaxPooling2D(pool_size=size_pool))
+# 3ra capa: Convolution2D
+cnn.add(Convolution2D(filter_conv2, size_filter2, padding='same', activation='relu'))
+# 4ta capa: MaxPooling2D
+cnn.add(MaxPooling2D(pool_size=size_pool))
+
+# Convertimos profundidad a 1D
+cnn.add(Flatten())
+cnn.add(Dense(256, activation='relu'))
+# Cada paso tendrá el 50% de neuronas en el entrenamiento
+# para evitar sobreajuste
+cnn.add(Dropout(0.5))
+# añadiendo las clases como neuronas en la capa
+# softmax: nos devuelve las probabilidades en base a las clases.
+cnn.add(Dense(classes, activation='softmax'))
+
+# Durante el entrenamiento
+# categorical_crossentropy: Calcula la pérdida de entropía cruzada entre 
+# las etiquetas y las predicciones.
+# optimizers.Adam: método de descenso de gradiente estocástico que se basa
+# en la estimación adaptativa de momentos de primer y segundo orden. 
+# Metrics.accuracy: Calcula la frecuencia con la que las predicciones son iguales a las etiquetas.
+cnn.compile(loss='categorical_crossentropy', optimizer=optimizers.Adam(lr=lr), metrics=['accuracy'])
+
+# Entrenamiento:
+# 1000 pasos por epoca
+# usando las imagenes de entrenamiento y validación
+# cada validación hará 200 pasos
+cnn.fit(img_training, steps_per_epoch=steps, epochs=epochs, validation_data=img_validate, validation_steps=steps_validate)
