@@ -109,3 +109,13 @@ cnn.compile(loss='categorical_crossentropy', optimizer=optimizers.Adam(lr=lr), m
 # usando las imagenes de entrenamiento y validación
 # cada validación hará 200 pasos
 cnn.fit(img_training, steps_per_epoch=steps, epochs=epochs, validation_data=img_validate, validation_steps=steps_validate)
+
+# Guardar el modelo
+# para no tener que entrenar cada que se requiera hacer una predicción
+directory = './model/'
+
+if not os.path.exists(directory):
+    os.mkdir(directory)
+
+cnn.save('./model/model.h5')
+cnn.save_weights('./model/weights.h5')
