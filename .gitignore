@@ -1,3 +1,7 @@
 # Carpetas con el dataset
 data/training/*
 data/validate/*
+
+# Excepción de la estructura de las carpetas
+!data/training/.gitkeep
+!data/validate/.gitkeep
