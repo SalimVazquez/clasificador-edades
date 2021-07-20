@@ -5,3 +5,6 @@ data/validate/*
 # Excepción de la estructura de las carpetas
 !data/training/.gitkeep
 !data/validate/.gitkeep
+
+# Modelo de la red, generado por el entrenamiento
+model/
