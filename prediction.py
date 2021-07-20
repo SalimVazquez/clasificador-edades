@@ -23,3 +23,20 @@ def predict(file):
     # Hacer una predicción, contiene un arreglo en base al No de clases
     # [[0, 0, 0, 1]]
     data = cnn.predict(x)
+    # Obtener la posición del arreglo con el valor más alto
+    # En este caso retornara la posición de la clase con mas coincidencia
+    prediction = np.argmax(data[0])
+    # Hacemos validaciones en base al número de clases
+    if prediction == 0:
+        print('Infancia')
+    elif prediction == 1:
+        print('Adolescentes')
+    elif prediction == 2:
+        print('Adulto')
+    elif prediction == 3:
+        print('3ra edad')
+
+# Llamando la función y
+# enviando la imagen a evaluar
+# para una prediccion
+predict('filename.jpg')
