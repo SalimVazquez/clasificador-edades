@@ -20,3 +20,6 @@ def predict(file):
     x = img_to_array(x)    
     # Agregando una dimension extra en el eje 0 del arreglo
     x = np.expand_dims(x, axis=0)
+    # Hacer una predicción, contiene un arreglo en base al No de clases
+    # [[0, 0, 0, 1]]
+    data = cnn.predict(x)
