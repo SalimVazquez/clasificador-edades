@@ -8,3 +8,7 @@ height, width = 100, 100
 # rutas del modelo entrenado
 path_model = './model/model.h5'
 path_weights = './model/weights.h5'
+
+# Cargar modelo entrenado
+cnn = load_model(path_model)
+cnn.load_weights(path_weights)
