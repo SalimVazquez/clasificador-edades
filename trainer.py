@@ -20,7 +20,7 @@ K.clear_session()
 path_training = './data/training'
 path_validate = './data/validate'
 
-# Params para la NN
+# Parametros para la NN
 # iteraciones en todo el proceso de entrenamiento
 epochs = 20
 # Re dimensionando las imagenes del dataset a 100px
@@ -46,7 +46,7 @@ size_pool = (2,2)
 # No de clases en dataset
 classes = 4
 # Tasa de aprendizaje (lambda)
-lr = 0.005
+lr = 0.0004
 
 # pre-procesamiento de imagenes
 datagen_training = ImageDataGenerator(
@@ -108,14 +108,16 @@ cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(
 # 1000 pasos por epoca
 # usando las imagenes de entrenamiento y validación
 # cada validación hará 200 pasos
-cnn.fit(img_training, steps_per_epoch=steps, epochs=epochs, validation_data=img_validate, validation_steps=steps_validate)
+cnn.fit_generator(img_training, steps_per_epoch=steps, epochs=epochs, validation_data=img_validate, validation_steps=steps_validate)
 
 # Guardar el modelo
 # para no tener que entrenar cada que se requiera hacer una predicción
 directory = './model/'
 
+# Creamos el directorio si no existe
 if not os.path.exists(directory):
     os.mkdir(directory)
 
+# Guardamos el modelo y los pesos
 cnn.save('./model/model.h5')
 cnn.save_weights('./model/weights.h5')
