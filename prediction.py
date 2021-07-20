@@ -12,3 +12,9 @@ path_weights = './model/weights.h5'
 # Cargar modelo entrenado
 cnn = load_model(path_model)
 cnn.load_weights(path_weights)
+
+def predict(file):
+    # Cargamos una imagen
+    x = load_img(file, target_size=(width, height))
+    # Convertimos la imagen en un arreglo
+    x = img_to_array(x)
