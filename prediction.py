@@ -17,4 +17,6 @@ def predict(file):
     # Cargamos una imagen
     x = load_img(file, target_size=(width, height))
     # Convertimos la imagen en un arreglo
-    x = img_to_array(x)
+    x = img_to_array(x)    
+    # Agregando una dimension extra en el eje 0 del arreglo
+    x = np.expand_dims(x, axis=0)
