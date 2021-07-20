@@ -102,7 +102,7 @@ cnn.add(Dense(classes, activation='softmax'))
 # optimizers.Adam: método de descenso de gradiente estocástico que se basa
 # en la estimación adaptativa de momentos de primer y segundo orden. 
 # Metrics.accuracy: Calcula la frecuencia con la que las predicciones son iguales a las etiquetas.
-cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam() , metrics=['accuracy'])
+cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(learning_rate=lr) , metrics=['accuracy'])
 
 # Entrenamiento:
 # 1000 pasos por epoca
