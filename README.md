@@ -11,7 +11,7 @@ que contenga **4 clases y 40 observaciones en cada clase**.
 - Infancia (4-15 años de edad)
 - Adolescencia (16-30 años de edad)
 - Adulto (31-50 años de edad)
-- 3ra edadd (+50 años de edad)
+- 3ra edad (+50 años de edad)
 
 ### Requerimientos
 - [TensorFlow](https://www.tensorflow.org/install?hl=es-419)
