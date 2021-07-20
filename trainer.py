@@ -3,8 +3,6 @@ import sys
 import os
 # Preprocesar imagenes
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-# Optimizador de entrenamiento
-from tensorflow.python.keras import optimizers
 # Libreria para hacer NN en orden (sequencial)
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dropout, Flatten, Dense, Activation
@@ -12,6 +10,8 @@ from tensorflow.python.keras.layers import Dropout, Flatten, Dense, Activation
 from tensorflow.python.keras.layers import Convolution2D, MaxPooling2D
 # Manejo de background en el ordenador
 from tensorflow.python.keras import backend as K
+# importación global de tensorflow
+import tensorflow as tf
 
 # Limpiamos los procesos que estan en background
 K.clear_session()
@@ -102,7 +102,7 @@ cnn.add(Dense(classes, activation='softmax'))
 # optimizers.Adam: método de descenso de gradiente estocástico que se basa
 # en la estimación adaptativa de momentos de primer y segundo orden. 
 # Metrics.accuracy: Calcula la frecuencia con la que las predicciones son iguales a las etiquetas.
-cnn.compile(loss='categorical_crossentropy', optimizer=optimizers.Adam(lr=lr), metrics=['accuracy'])
+cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam() , metrics=['accuracy'])
 
 # Entrenamiento:
 # 1000 pasos por epoca
