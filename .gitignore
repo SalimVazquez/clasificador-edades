@@ -8,3 +8,6 @@ data/validate/*
 
 # Modelo de la red, generado por el entrenamiento
 model/
+
+# Carpetas de imagenes para probar el modelo
+data/test/*
