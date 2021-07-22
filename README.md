@@ -25,3 +25,8 @@ que contenga **4 clases y 40 observaciones en cada clase**.
 
 Con esto el programa al momento de entrenar, leera y procesara las imagenes.
 Y así podrá entrenarse y generar el modelo de la red.
+
+### Herramientas
+Usamos el siguiente sitio para redimensionar el dataset a un tamaño de pixeles, en este caso
+500 px de ancho y largo.
+- [Redimensionar imagenes](https://www.iloveimg.com/es/redimensionar-imagen)
