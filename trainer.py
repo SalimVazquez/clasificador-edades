@@ -22,15 +22,15 @@ path_validate = './data/validate'
 
 # Parametros para la NN
 # iteraciones en todo el proceso de entrenamiento
-epochs = 20
+epochs = 10
 # Re dimensionando las imagenes del dataset a 100px
-height, width = 100, 100
+height, width = 1000, 800
 # No de imagenes (lote) a enviar por cada paso 
-batch_size = 32
+batch_size = 1
 # No de pasos a iterar en cada epoca
-steps = 1000
+steps = 160
 # No de pasos a iterar de validacion
-steps_validate = 200
+steps_validate = 160
 # Filtros a usar en la convolucion
 # Capa 1 = 32 profundidad
 # Capa 2 = 64 profundidad
@@ -46,7 +46,7 @@ size_pool = (2,2)
 # No de clases en dataset
 classes = 4
 # Tasa de aprendizaje (lambda)
-lr = 0.0004
+lr = 0.005
 
 # pre-procesamiento de imagenes
 datagen_training = ImageDataGenerator(
@@ -73,11 +73,13 @@ img_validate = datagen_validate.flow_from_directory(
 )
 
 # Crear red Convolucional
-cnn = Sequential() # Red secuencial por capas
+# Red secuencial por capas
+cnn = Sequential()
 # 1er capa: Convolution2D
 # encargada de recibir las imagenes con $height, $width px y los canales por imagen (RGB)
 # aplicando los filtros y tamaños de filtros indicados
-cnn.add(Convolution2D(filter_conv1, size_filter1, padding='same', input_shape=(height, width, 3), activation='relu'))
+cnn.add(Convolution2D(filter_conv1, size_filter1, padding='same', input_shape=(height, width, 3),
+    activation='relu'))
 # 2da capa: MaxPooling2D
 # filtro para esta: (2,2) px
 cnn.add(MaxPooling2D(pool_size=size_pool))
@@ -102,13 +104,16 @@ cnn.add(Dense(classes, activation='softmax'))
 # optimizers.Adam: método de descenso de gradiente estocástico que se basa
 # en la estimación adaptativa de momentos de primer y segundo orden. 
 # Metrics.accuracy: Calcula la frecuencia con la que las predicciones son iguales a las etiquetas.
-cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(learning_rate=lr) , metrics=['accuracy'])
+cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(learning_rate=lr),
+    metrics=['accuracy'])
 
 # Entrenamiento:
 # 1000 pasos por epoca
 # usando las imagenes de entrenamiento y validación
 # cada validación hará 200 pasos
-cnn.fit_generator(img_training, steps_per_epoch=steps, epochs=epochs, validation_data=img_validate, validation_steps=steps_validate)
+# cnn.fit(img_training, batch_size=batch_size, steps_per_epoch=steps, epochs=epochs,
+#     validation_data=img_validate, validation_steps=steps_validate)
+cnn.fit(img_training, epochs=epochs)
 
 # Guardar el modelo
 # para no tener que entrenar cada que se requiera hacer una predicción
