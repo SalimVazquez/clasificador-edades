@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 
 # altura y ancho de imagenes
-height, width = 100, 100
+height, width = 1000, 800
 
 # rutas del modelo entrenado
 path_model = './model/model.h5'
@@ -14,7 +14,7 @@ cnn.load_weights(path_weights)
 
 def predict(file):
     # Cargamos una imagen
-    x = tf.keras.preprocessing.image.load_img(file, target_size=(width, height))
+    x = tf.keras.preprocessing.image.load_img(file, target_size=(height, width))
     # Convertimos la imagen en un arreglo
     x = tf.keras.preprocessing.image.img_to_array(x)
     # Agregando una dimension extra en el eje 0 del arreglo
