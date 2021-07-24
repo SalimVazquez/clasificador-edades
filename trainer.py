@@ -14,6 +14,10 @@ from tensorflow.python.keras import backend as K
 import tensorflow as tf
 # libreria para hacer los graficos de la red
 import matplotlib.pyplot as plot
+# Libreria para arreglos
+import numpy as np
+# Libreria para metricas del modelo
+from sklearn.metrics import classification_report, confusion_matrix
 
 # Limpiamos los procesos que estan en background
 K.clear_session()
@@ -24,7 +28,7 @@ path_validate = './data/validate'
 
 # Parametros para la NN
 # iteraciones en todo el proceso de entrenamiento
-epochs = 150
+epochs = 3
 # Re dimensionando las imagenes del dataset a 100px
 height, width = 500, 500
 # No de imagenes (lote) a enviar por cada paso 
@@ -54,11 +58,22 @@ datagen_training = ImageDataGenerator(
     horizontal_flip = True # Invertir imagen para mejor entrenamiento
 )
 
+datagen_validate = ImageDataGenerator(rescale=1./255)
+
 img_training = datagen_training.flow_from_directory(
     path_training, # path de imagenes para entrenamiento
     target_size = (height, width), # Lee y procesa las imagenes a $height, $width
     batch_size = batch_size, # Crea lotes de imagenes
-    class_mode = 'categorical'
+    class_mode = 'categorical',
+    shuffle = False
+)
+
+img_validate = datagen_validate.flow_from_directory(
+    path_validate, # path de imagenes para validación
+    target_size = (height, width), # Lee y procesa las imagenes a $height, $width
+    batch_size = batch_size, # Crea lotes de imagenes
+    class_mode = 'categorical',
+    shuffle = False
 )
 
 # Crear red Convolucional
@@ -123,7 +138,28 @@ epoches = [int(x) for x in range(epochs)]
 plot.title('Validation history')
 plot.xlabel('No. epoch')
 plot.plot(epoches,history.history['loss'],'o-', color='red', label='Loss history')
-plot.plot(epoches,history.history['accuracy'],'o-', color='skyblue', label='Accuracy history')
+plot.plot(epoches,history.history['accuracy'],'o-', color='green', label='Accuracy history')
 plot.legend(bbox_to_anchor=(1, 1),
             loc='upper left', borderaxespad=0.)
 plot.show()
+
+# Matriz de confusión
+predictions = cnn.predict(img_validate)
+pred_y = np.argmax(predictions, axis=1)
+print('Confusion Matrix')
+cm = confusion_matrix(img_validate.classes, pred_y)
+print(cm)
+fig, ax = plot.subplots()
+# hide axes
+fig.patch.set_visible(False)
+ax.axis('off')
+ax.axis('tight')
+plot.title('Confusion Matrix')
+ax.table(cellText=cm, loc='center', colLabels=["3ra edad", "Adolescentes", "Adulto", "Infancia"],
+    rowLabels=["3ra edad", "Adolescentes", "Adulto", "Infancia"])
+fig.tight_layout()
+plot.show()
+print('Classification Report')
+cr = classification_report(img_validate.classes, pred_y,
+    target_names=['3ra edad', 'Adolescentes', 'Adultos', 'Infancia'])
+print(cr)
