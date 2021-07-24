@@ -22,15 +22,11 @@ path_validate = './data/validate'
 
 # Parametros para la NN
 # iteraciones en todo el proceso de entrenamiento
-epochs = 10
+epochs = 150
 # Re dimensionando las imagenes del dataset a 100px
-height, width = 1000, 800
+height, width = 500, 500
 # No de imagenes (lote) a enviar por cada paso 
 batch_size = 1
-# No de pasos a iterar en cada epoca
-steps = 160
-# No de pasos a iterar de validacion
-steps_validate = 160
 # Filtros a usar en la convolucion
 # Capa 1 = 32 profundidad
 # Capa 2 = 64 profundidad
@@ -46,7 +42,7 @@ size_pool = (2,2)
 # No de clases en dataset
 classes = 4
 # Tasa de aprendizaje (lambda)
-lr = 0.005
+lr = 0.00005
 
 # pre-procesamiento de imagenes
 datagen_training = ImageDataGenerator(
@@ -69,7 +65,8 @@ img_validate = datagen_validate.flow_from_directory(
     path_validate, # path de imagenes para validación
     target_size = (height, width), # Lee y procesa las imagenes a $height, $width
     batch_size = batch_size, # Crea lotes de imagenes
-    class_mode = 'categorical'
+    class_mode = None,
+    shuffle = False
 )
 
 # Crear red Convolucional
@@ -98,6 +95,9 @@ cnn.add(Dropout(0.5))
 # softmax: nos devuelve las probabilidades en base a las clases.
 cnn.add(Dense(classes, activation='softmax'))
 
+# imprimir un resumen de la red construida
+cnn.summary()
+
 # Durante el entrenamiento
 # categorical_crossentropy: Calcula la pérdida de entropía cruzada entre 
 # las etiquetas y las predicciones.
@@ -108,12 +108,8 @@ cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(
     metrics=['accuracy'])
 
 # Entrenamiento:
-# 1000 pasos por epoca
 # usando las imagenes de entrenamiento y validación
-# cada validación hará 200 pasos
-# cnn.fit(img_training, batch_size=batch_size, steps_per_epoch=steps, epochs=epochs,
-#     validation_data=img_validate, validation_steps=steps_validate)
-cnn.fit(img_training, epochs=epochs)
+cnn.fit(img_training, epochs=epochs, validation_data=img_validate)
 
 # Guardar el modelo
 # para no tener que entrenar cada que se requiera hacer una predicción

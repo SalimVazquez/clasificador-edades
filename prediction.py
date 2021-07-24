@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 
 # altura y ancho de imagenes
-height, width = 1000, 800
+height, width = 500, 500
 
 # rutas del modelo entrenado
 path_model = './model/model.h5'
@@ -27,13 +27,13 @@ def predict(file):
     prediction = np.argmax(data[0])
     # Hacemos validaciones en base al número de clases
     if prediction == 0:
-        print('Infancia')
+        print('3ra edad')
     elif prediction == 1:
         print('Adolescentes')
     elif prediction == 2:
         print('Adulto')
     elif prediction == 3:
-        print('3ra edad')
+        print('Infancia')
 
 # Llamando la función y
 # enviando la imagen a evaluar
