@@ -12,6 +12,8 @@ from tensorflow.python.keras.layers import Convolution2D, MaxPooling2D
 from tensorflow.python.keras import backend as K
 # importación global de tensorflow
 import tensorflow as tf
+# libreria para hacer los graficos de la red
+import matplotlib.pyplot as plot
 
 # Limpiamos los procesos que estan en background
 K.clear_session()
@@ -52,21 +54,11 @@ datagen_training = ImageDataGenerator(
     horizontal_flip = True # Invertir imagen para mejor entrenamiento
 )
 
-datagen_validate = ImageDataGenerator(rescale=1./255)
-
 img_training = datagen_training.flow_from_directory(
     path_training, # path de imagenes para entrenamiento
     target_size = (height, width), # Lee y procesa las imagenes a $height, $width
     batch_size = batch_size, # Crea lotes de imagenes
     class_mode = 'categorical'
-)
-
-img_validate = datagen_validate.flow_from_directory(
-    path_validate, # path de imagenes para validación
-    target_size = (height, width), # Lee y procesa las imagenes a $height, $width
-    batch_size = batch_size, # Crea lotes de imagenes
-    class_mode = None,
-    shuffle = False
 )
 
 # Crear red Convolucional
@@ -109,7 +101,9 @@ cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(
 
 # Entrenamiento:
 # usando las imagenes de entrenamiento y validación
-cnn.fit(img_training, epochs=epochs, validation_data=img_validate)
+# Guardando los registros de funciones de perdida
+# y precisión por epoca
+history = cnn.fit(img_training, epochs=epochs)
 
 # Guardar el modelo
 # para no tener que entrenar cada que se requiera hacer una predicción
@@ -122,3 +116,14 @@ if not os.path.exists(directory):
 # Guardamos el modelo y los pesos
 cnn.save('./model/model.h5')
 cnn.save_weights('./model/weights.h5')
+
+# Graficando la función de perdida
+# y la precisión del modelado
+epoches = [int(x) for x in range(epochs)]
+plot.title('Validation history')
+plot.xlabel('No. epoch')
+plot.plot(epoches,history.history['loss'],'o-', color='red', label='Loss history')
+plot.plot(epoches,history.history['accuracy'],'o-', color='skyblue', label='Accuracy history')
+plot.legend(bbox_to_anchor=(1, 1),
+            loc='upper left', borderaxespad=0.)
+plot.show()
