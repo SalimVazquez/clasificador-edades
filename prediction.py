@@ -1,5 +1,8 @@
 import numpy as np
 import tensorflow as tf
+import tkinter as tk
+from tkinter import filedialog
+from PIL import ImageTk, Image
 
 # altura y ancho de imagenes
 height, width = 500, 500
@@ -27,15 +30,41 @@ def predict(file):
     prediction = np.argmax(data[0])
     # Hacemos validaciones en base al número de clases
     if prediction == 0:
-        print('3ra edad')
+        return 'Prediccion: 3ra edad'
     elif prediction == 1:
-        print('Adolescentes')
+        return 'Prediccion: Adolescentes'
     elif prediction == 2:
-        print('Adulto')
+        return 'Prediccion: Adulto'
     elif prediction == 3:
-        print('Infancia')
+        return 'Prediccion: Infancia'
 
 # Llamando la función y
 # enviando la imagen a evaluar
 # para una prediccion
-predict('filename.jpg')
+# predict('filename.jpg')
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title('Clasificaor')
+    root.geometry("550x300+300+150")
+    root.resizable(width=True, height=True)
+
+    def openfn():
+        filename = filedialog.askopenfilename(title='open')
+        return filename
+
+    def open_img():
+        x = openfn()
+        img = Image.open(x)
+        img = img.resize((250, 250), Image.ANTIALIAS)
+        img = ImageTk.PhotoImage(img)
+        panel = tk.Label(root, image=img)
+        panel.image = img
+        panel.pack()
+        clas = predict(x)
+        classification = tk.Label(root, text=clas)
+        classification.place(x=25, y=25, anchor='center')
+        classification.pack()
+
+    btn = tk.Button(root, text='open image', command=open_img).pack()
+    root.mainloop()
