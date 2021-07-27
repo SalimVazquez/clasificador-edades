@@ -28,7 +28,7 @@ path_validate = './data/validate'
 
 # Parametros para la NN
 # iteraciones en todo el proceso de entrenamiento
-epochs = 3
+epochs = 100
 # Re dimensionando las imagenes del dataset a 100px
 height, width = 500, 500
 # No de imagenes (lote) a enviar por cada paso 
@@ -48,7 +48,7 @@ size_pool = (2,2)
 # No de clases en dataset
 classes = 4
 # Tasa de aprendizaje (lambda)
-lr = 0.00005
+lr = 0.00001
 
 # pre-procesamiento de imagenes
 datagen_training = ImageDataGenerator(
@@ -118,7 +118,7 @@ cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(
 # usando las imagenes de entrenamiento y validación
 # Guardando los registros de funciones de perdida
 # y precisión por epoca
-history = cnn.fit(img_training, epochs=epochs)
+history = cnn.fit(img_training, epochs=epochs, batch_size=batch_size, validation_data=img_validate)
 
 # Guardar el modelo
 # para no tener que entrenar cada que se requiera hacer una predicción
@@ -134,20 +134,27 @@ cnn.save_weights('./model/weights.h5')
 
 # Graficando la función de perdida
 # y la precisión del modelado
-epoches = [int(x) for x in range(epochs)]
-plot.title('Validation history')
-plot.xlabel('No. epoch')
-plot.plot(epoches,history.history['loss'],'o-', color='red', label='Loss history')
-plot.plot(epoches,history.history['accuracy'],'o-', color='green', label='Accuracy history')
-plot.legend(bbox_to_anchor=(1, 1),
-            loc='upper left', borderaxespad=0.)
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+epochs = range(1, len(acc) + 1)
+plot.title('Training and validation accuracy')
+plot.plot(epochs, acc, 'r', label='Training acc')
+plot.plot(epochs, val_acc, 'b', label='Validation acc')
+plot.legend()
+plot.figure()
+plot.plot(epochs, loss, 'r', label='Training loss')
+plot.plot(epochs, val_loss, 'b', label='Validation loss')
+plot.title('Training and validation loss')
+plot.legend()
 plot.show()
 
 # Matriz de confusión
-predictions = cnn.predict(img_validate)
+predictions = cnn.predict(img_training)
 pred_y = np.argmax(predictions, axis=1)
 print('Confusion Matrix')
-cm = confusion_matrix(img_validate.classes, pred_y)
+cm = confusion_matrix(img_training.classes, pred_y)
 print(cm)
 fig, ax = plot.subplots()
 # hide axes
@@ -160,6 +167,6 @@ ax.table(cellText=cm, loc='center', colLabels=["3ra edad", "Adolescentes", "Adul
 fig.tight_layout()
 plot.show()
 print('Classification Report')
-cr = classification_report(img_validate.classes, pred_y,
+cr = classification_report(img_training.classes, pred_y,
     target_names=['3ra edad', 'Adolescentes', 'Adultos', 'Infancia'])
 print(cr)
