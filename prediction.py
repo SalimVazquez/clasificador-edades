@@ -5,7 +5,7 @@ from tkinter import filedialog
 from PIL import ImageTk, Image
 
 # altura y ancho de imagenes
-height, width = 500, 500
+height, width = 250, 292
 
 # rutas del modelo entrenado
 path_model = './model/model.h5'
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         panel.pack()
         clas = predict(x)
         classification = tk.Label(root, text=clas)
-        classification.place(x=25, y=25, anchor='center')
+        classification.place(x=250, y=292, anchor='center')
         classification.pack()
 
     btn = tk.Button(root, text='open image', command=open_img).pack()

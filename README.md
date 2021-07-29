@@ -16,10 +16,12 @@ que contenga **4 clases y 40 observaciones en cada clase**.
 ### Requerimientos
 - [TensorFlow](https://www.tensorflow.org/install?hl=es-419)
 - [Keras](https://www.tutorialspoint.com/keras/keras_installation.htm)
-- [Dataset](https://drive.google.com/file/d/1wYW-sgPMbNMZ-hFMrjpIXcNllTNIdzOK/view)
+- [Dataset](https://drive.google.com/file/d/1mW_IsRvS_dDiFaP85i0yDylFeZyEwfWe/view)
 
 ### Configuración
-- Necesita descargar el *dataset*, y descomprimir las carpetas que contienen las imagenes dentro de la carpeta [training](/data/training), y descomprimir las imagenes dentro de test en la carpeta [validate](/data/validate)
+- Necesita descargar el *dataset*, y descomprimir las carpetas que contienen las imagenes dentro de las carpetas:
+    - [training](/data/training)
+    - [validate](/data/validate)
 
 Con esto el programa al momento de entrenar, leera y procesara las imagenes.
 Y así podrá entrenarse y generar el modelo de la red.

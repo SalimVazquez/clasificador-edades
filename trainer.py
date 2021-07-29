@@ -30,7 +30,8 @@ path_validate = './data/validate'
 # iteraciones en todo el proceso de entrenamiento
 epochs = 100
 # Re dimensionando las imagenes del dataset a 100px
-height, width = 500, 500
+#height, width = 500, 374
+height, width = 250, 292
 # No de imagenes (lote) a enviar por cada paso 
 batch_size = 1
 # Filtros a usar en la convolucion
@@ -48,7 +49,7 @@ size_pool = (2,2)
 # No de clases en dataset
 classes = 4
 # Tasa de aprendizaje (lambda)
-lr = 0.00001
+lr = 0.00005
 
 # pre-procesamiento de imagenes
 datagen_training = ImageDataGenerator(
@@ -118,7 +119,7 @@ cnn.compile(loss='categorical_crossentropy', optimizer=tf.keras.optimizers.Adam(
 # usando las imagenes de entrenamiento y validación
 # Guardando los registros de funciones de perdida
 # y precisión por epoca
-history = cnn.fit(img_training, epochs=epochs, batch_size=batch_size, validation_data=img_validate)
+history = cnn.fit(img_training, epochs=epochs, validation_data=img_validate)
 
 # Guardar el modelo
 # para no tener que entrenar cada que se requiera hacer una predicción
@@ -139,9 +140,9 @@ val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 epochs = range(1, len(acc) + 1)
-plot.title('Training and validation accuracy')
 plot.plot(epochs, acc, 'r', label='Training acc')
 plot.plot(epochs, val_acc, 'b', label='Validation acc')
+plot.title('Training and validation accuracy')
 plot.legend()
 plot.figure()
 plot.plot(epochs, loss, 'r', label='Training loss')
